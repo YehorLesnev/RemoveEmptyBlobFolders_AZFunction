@@ -26,10 +26,15 @@ namespace RemoveEmptyBlobFolders
             _blobServiceClient = new BlobServiceClient(storageConnString);
 
             _containerName = configuration.GetValue<string>("BlobContainerName", string.Empty).Trim();
-            _rootPath = configuration.GetValue<string>("RootBlobPath", string.Empty).Trim();
-            if (!string.IsNullOrEmpty(_rootPath) && !_rootPath.EndsWith('/'))
+            string rawRoot = configuration.GetValue<string>("RootBlobPath", string.Empty).Trim();
+            string normalizedRoot = rawRoot.Trim('/');
+            if (!string.IsNullOrEmpty(normalizedRoot))
             {
-                _rootPath += "/";
+                _rootPath = normalizedRoot + "/";  // e.g. "myfolder/"
+            }
+            else
+            {
+                _rootPath = "";  // Use empty prefix to enumerate entire container
             }
 
             int retentionMonths = configuration.GetValue<int?>("MinAgeInDaysToDelete") ?? 90;
