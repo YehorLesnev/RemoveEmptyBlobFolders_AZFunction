@@ -38,7 +38,7 @@ namespace RemoveEmptyBlobFolders
 
         [Function("CleanupEmptyFolders")]
         public async Task Run(
-            [TimerTrigger("0 0 0 1 * *", RunOnStartup = false)] TimerInfo timerInfo)
+            [TimerTrigger("0 0 0 1 * *", RunOnStartup = true)] TimerInfo timerInfo)
         {
             _logger.LogInformation($"CleanupEmptyFolders triggered at: {DateTime.UtcNow:O}");
 
