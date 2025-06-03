@@ -33,7 +33,8 @@ namespace RemoveEmptyBlobFolders
             }
 
             int retentionMonths = configuration.GetValue<int?>("MinAgeInDaysToDelete") ?? 90;
-            _thresholdDate = DateTimeOffset.UtcNow.AddDays(-retentionMonths);
+            _logger.LogInformation($"Configured retention period: {retentionMonths} days");
+			_thresholdDate = DateTimeOffset.UtcNow.AddDays(-retentionMonths);
         }
 
         [Function("CleanupEmptyFolders")]
